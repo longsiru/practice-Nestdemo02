@@ -11,6 +11,11 @@ import { join } from 'path';
 //4.3.配置cookie中间件
 import * as cookieParser from 'cookie-parser';
 
+//5.session是另一种记录客户状态的机制。
+//5.1.安装session： npm install express-session --save
+//5.2. import session
+import * as session from 'express-session';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   //app.useStaticAssets('public'); //1.配置静态资源目录
@@ -31,6 +36,15 @@ async function bootstrap() {
   //4.3.配置cookie中间件
   //4.6 对cookie进行加密。---配置中间件的时候需要传参数，任意。，然后设置的时候：signed：true
   app.use(cookieParser('this is signedCookie'));
+
+  //5.3.配置session中间件 //加了rolling之后，么哦一次都重新加载过期的cookie时间。
+  app.use(
+    session({
+      secret: 'keyboard cat',
+      cookie: { maxAge: 9000, httpOnly: true },
+      rolling: true,
+    }),
+  );
 
   await app.listen(3000);
 }
