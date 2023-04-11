@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Render, Response } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Render,
+  Response,
+  Request,
+} from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
@@ -16,5 +24,14 @@ export class UserController {
     console.log(body);
     res.redirect('/user'); //路由跳转
     //return 'success'; //成功后跳转到首页。
+  }
+
+  //4.5获取cookie  -> 4.6 对cookie进行加密。--配置中间件的时候需要传参数，任意。
+  //加密后的cookie需要用req.signedCookies
+  @Get('cookie')
+  getCookie(@Request() req) {
+    //console.log(req.cookies.username);
+    console.log(req.signedCookies.username);
+    return 'already got the cookie seccessful! view the console';
   }
 }
