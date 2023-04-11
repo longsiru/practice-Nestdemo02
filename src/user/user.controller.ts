@@ -3,6 +3,7 @@ import { Body, Controller, Get, Post, Render, Response } from '@nestjs/common';
 @Controller('user')
 export class UserController {
   //5.模版引擎结合post
+  //用render渲染模版。
   @Get()
   @Render('default/user')
   index() {
